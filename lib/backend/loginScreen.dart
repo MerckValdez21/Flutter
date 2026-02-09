@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:valdez_justinmerck/backend/dashboard.dart';
 import 'package:valdez_justinmerck/backend/signupScreen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:valdez_justinmerck/sqlDatabase/databaseHelper.dart';
 
 // Primary Class
 class LoginScreen extends StatefulWidget {
@@ -28,6 +31,10 @@ class LoginScreenHome extends StatefulWidget {
 
 class _LoginScreenHomeState extends State<LoginScreenHome> {
   //Declare Variables here
+  //Initialize Controllers for Username and Password
+  var usernameController = TextEditingController();
+  var passwordController = TextEditingController();
+
   var hidePassword = true;
 
   // Show or Hide Password
@@ -41,6 +48,56 @@ class _LoginScreenHomeState extends State<LoginScreenHome> {
       setState(() {
         hidePassword = true;
       });
+    }
+  }
+  void validateInputs() async{
+
+    if(usernameController.text.isEmpty){
+      AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          title: 'Error',
+          desc: 'Username is empty',
+          btnOkOnPress: (){}
+      ).show();
+    }
+    else if(passwordController.text.isEmpty){
+      AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          title: 'Error',
+          desc: 'Password is empty',
+          btnOkOnPress: (){}
+      ).show();
+    }
+    else{
+      //Execute the Login Algorithm
+      final users = await DatabaseHelper().loginUser(usernameController.text, passwordController.text);
+      if(users.isEmpty){
+        AwesomeDialog(
+            context: context,
+            title: 'Invalid Username or Password',
+            dialogType: DialogType.error,
+            desc: 'User not found in the Database',
+            btnOkOnPress: (){}
+        ).show();
+      }
+      else{
+        //Navigate to Dashboard
+        AwesomeDialog(
+            context: context,
+            dialogType: DialogType.success,
+            title: 'Login Success',
+            desc: 'User successfully validated',
+            btnOkOnPress: (){}
+        ).show();
+        //Navigate to Dashboard
+        Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (BuildContext context)=>Dashboard()
+            )
+        );
+      }
     }
   }
 

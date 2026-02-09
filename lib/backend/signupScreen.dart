@@ -21,7 +21,6 @@ import 'package:valdez_justinmerck/sqlDatabase/databaseHelper.dart';
 class _SignupScreenHomeState extends State<SignupScreenHome> {
       var hidePassword1 = true;
       var hidePassword2 = true;
-
       //Create variables for Controllers
       var fullNameController = TextEditingController();
       var usernameController = TextEditingController();
@@ -57,7 +56,7 @@ class _SignupScreenHomeState extends State<SignupScreenHome> {
               width: 300.0,
               context: context,
               title: 'Error',
-              desc: 'User name is required',
+              desc: 'Username is required',
               dialogType: DialogType.error,
               btnOkOnPress: (){}
           ).show();
@@ -92,7 +91,6 @@ class _SignupScreenHomeState extends State<SignupScreenHome> {
               btnOkOnPress: () {}
           ).show();
         }
-
         else {
           final result = await DatabaseHelper().insertStudent(fullNameController.text, usernameController.text, password1Controller.text);
           if (result > 0){

@@ -26,18 +26,10 @@ class DatabaseHelper {
           fullName TEXT NOT NULL,
           username TEXT NOT NULL,
           password TEXT NOT NULL,
-          dataAdded DATETIME NOT NUL DEFAULT CURRENT_TIMESTAMP
-          )
+          dataAdded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
           """);
-          //You can add another table construction below
-        await db.execute("""
-        
-        """);
       }
-
-
     );
-
     _db = db;
     return db;
   }
@@ -65,7 +57,7 @@ class DatabaseHelper {
     final data = {'fullName': fullName, 'username': username, 'password': password};
     //Execute the update to change data of a student with id coming from the parameter
     return await db.update('students', data, where: 'id: ?', whereArgs: ['studentID']);
-    //return await db.rawUpdate("UPDATE students SET fullName = ?, username = ?, password = ? VALUES('$fullName', '$username', '$password' WHERE id = '$studentID')");
+
   }
   //Method to delete student - DELETE
   Future<int> deleteStudent(int id) async{
@@ -78,9 +70,7 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> loginUser(String username, String password) async{
     //Initialize Database Connection Link
     final database = await _database();
-
     return await database.query('students', where: 'username = ? AND password = ?', whereArgs: [username, password]);
-
   }
 
   }
