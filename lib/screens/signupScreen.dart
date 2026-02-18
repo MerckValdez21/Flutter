@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:valdez_justinmerck/backend/loginScreen.dart';
+import 'package:valdez_justinmerck/screens/loginScreen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:valdez_justinmerck/sqlDatabase/databaseHelper.dart';
 

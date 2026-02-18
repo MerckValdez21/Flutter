@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:valdez_justinmerck/backend/loginScreen.dart';
+import 'package:valdez_justinmerck/screens/loginScreen.dart';
 
 class Dashboard extends StatelessWidget{
   @override

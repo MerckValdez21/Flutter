@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:valdez_justinmerck/backend/dashboard.dart';
-import 'package:valdez_justinmerck/backend/signupScreen.dart';
+import 'package:valdez_justinmerck/screens/dashboard.dart';
+import 'package:valdez_justinmerck/screens/homePage.dart';
+import 'package:valdez_justinmerck/screens/signupScreen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:valdez_justinmerck/sqlDatabase/databaseHelper.dart';
 
@@ -94,7 +95,7 @@ class _LoginScreenHomeState extends State<LoginScreenHome> {
         //Navigate to Dashboard
         Navigator.of(context).push(
             MaterialPageRoute(
-                builder: (BuildContext context)=>Dashboard()
+                builder: (BuildContext context)=>Homepage()
             )
         );
       }
@@ -132,6 +133,7 @@ class _LoginScreenHomeState extends State<LoginScreenHome> {
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: usernameController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.supervised_user_circle),
                     labelText: 'Username',
@@ -147,6 +149,7 @@ class _LoginScreenHomeState extends State<LoginScreenHome> {
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: hidePassword,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.password),
@@ -172,7 +175,9 @@ class _LoginScreenHomeState extends State<LoginScreenHome> {
                   style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.black),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    validateInputs();
+                  },
                   child: Text(
                     'Login',
                     style: TextStyle(color: Colors.white),
