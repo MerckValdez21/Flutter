@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "165844376123",
+    "firebase_url": "https://cspc106valdezjm-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cspc106valdezjm",
+    "storage_bucket": "cspc106valdezjm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165844376123:android:b74b37986f23b4ee455a1e",
+        "android_client_info": {
+          "package_name": "com.example.valdez_justinmerck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165844376123-70b0c5t9jka6i555hv5gbr1tp527bsrn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.valdez_justinmerck",
+            "certificate_hash": "a1aaac0ca596cac834d04fdc2e0a4566d2268dda"
+          }
+        },
+        {
+          "client_id": "165844376123-iuv1bojtn1eh2bn6lqc9mq42jeit3kdm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgBjxAdjyPM4AYWy_zocLDAhzxCeTXh4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165844376123-iuv1bojtn1eh2bn6lqc9mq42jeit3kdm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
