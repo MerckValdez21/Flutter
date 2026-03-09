@@ -16,8 +16,8 @@ class DatabaseHelper {
       //Path of Database file
         '$path/$_dbName',
       //Version of Database file
-      version: 1,
-      //Property that will call the contruction of Database TABLE
+      version: 2,
+      //Property that will call the construction of Database TABLE
       onCreate: (db, version) async{
           //Query to Construct student Table
           await db.execute("""
@@ -28,6 +28,28 @@ class DatabaseHelper {
           password TEXT NOT NULL,
           dataAdded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
           """);
+          //Query to Construct notes Table
+          await db.execute("""
+          CREATE TABLE IF NOT EXISTS notes(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          content TEXT NOT NULL,
+          createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
+          """);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          //Query to Construct notes Table for existing databases
+          await db.execute("""
+          CREATE TABLE IF NOT EXISTS notes(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          content TEXT NOT NULL,
+          createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
+          """);
+        }
       }
     );
     _db = db;
@@ -50,13 +72,13 @@ class DatabaseHelper {
     //return await db.rawQuery("SELECT * FROM students ORDER BY fullName ASC");
   }
   //Method to Update data into the students Table - UPDATE
-  Future<int> updateStudent(int studentID, String fullName, String username, String password) async{
+  Future<int> updateStudent(int studentID, String fullName, String username, String password) async {
     //Initialize database Connection Link
     final db = await _database();
     //Prepare updated data
     final data = {'fullName': fullName, 'username': username, 'password': password};
     //Execute the update to change data of a student with id coming from the parameter
-    return await db.update('students', data, where: 'id: ?', whereArgs: ['studentID']);
+    return await db.update('students', data, where: 'id: ?', whereArgs: ['$studentID']);
 
   }
   //Method to delete student - DELETE
@@ -73,4 +95,45 @@ class DatabaseHelper {
     return await database.query('students', where: 'username = ? AND password = ?', whereArgs: [username, password]);
   }
 
+  //Method to insert a new note - CREATE
+  Future<int> insertNote(String title, String content) async{
+    //Initialize database Connection Link
+    final db = await _database();
+    //Prepare pair of data('columnName': sourceFromParameter)
+    final data = {'title': title, 'content': content};
+    return await db.insert('notes', data);
   }
+
+  //Method to get all notes - READ
+  Future<List<Map<String, dynamic>>> getAllNotes() async{
+    //Initialize database connection link
+    final db = await _database();
+    //Query to get all data from notes table ordered by creation date
+    return await db.query('notes', orderBy: 'createdAt DESC');
+  }
+
+  //Method to update a note - UPDATE
+  Future<int> updateNote(int noteId, String title, String content) async {
+    //Initialize database Connection Link
+    final db = await _database();
+    //Prepare updated data
+    final data = {'title': title, 'content': content, 'updatedAt': DateTime.now().toIso8601String()};
+    //Execute the update to change data of a note with id coming from the parameter
+    return await db.update('notes', data, where: 'id = ?', whereArgs: [noteId]);
+  }
+
+  //Method to delete a note - DELETE
+  Future<int> deleteNote(int id) async{
+    //Initialize Database Connection Link
+    final db = await _database();
+    return await db.delete('notes', where: 'id = ?', whereArgs: [id]);
+  }
+
+  //Method to get a single note by ID
+  Future<List<Map<String, dynamic>>> getNoteById(int id) async{
+    //Initialize Database Connection Link
+    final db = await _database();
+    return await db.query('notes', where: 'id = ?', whereArgs: [id]);
+  }
+
+}
